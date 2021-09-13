@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/authFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/authFragment"
         android:name="com.reinkyatto.webjens.ui.auth.AuthFragment"
         android:label="fragment_auth"
-        tools:layout="@layout/fragment_auth" >
+        tools:layout="@layout/fragment_auth">
         <action
             android:id="@+id/action_authFragment_to_serversListFragment"
             app:destination="@id/serversListFragment" />
@@ -18,5 +18,47 @@
         android:id="@+id/serversListFragment"
         android:name="com.reinkyatto.webjens.ui.serverslist.ServersListFragment"
         android:label="fragment_servers_list"
-        tools:layout="@layout/fragment_servers_list" />
+        tools:layout="@layout/fragment_servers_list">
+        <action
+            android:id="@+id/action_serversListFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+        <action
+
+            android:id="@+id/action_serversListFragment_to_serverFragment"
+            app:destination="@id/serverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.reinkyatto.webjens.ui.splash.SplashFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_serversListFragment"
+            app:destination="@id/serversListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.reinkyatto.webjens.ui.about.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.reinkyatto.webjens.ui.profile.UserInfoFragment"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info" />
+    <fragment
+        android:id="@+id/serverFragment"
+        android:name="com.reinkyatto.webjens.ui.server.ServerFragment"
+        android:label="fragment_server"
+        tools:layout="@layout/fragment_server">
+        <argument
+            android:name="serverId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_serverFragment_pop"
+            app:popUpTo="@id/serverFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

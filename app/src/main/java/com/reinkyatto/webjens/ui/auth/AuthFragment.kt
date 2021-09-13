@@ -6,32 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.reinkyatto.webjens.activity.MainActivity
+import com.reinkyatto.webjens.arch.BaseFragment
 import com.reinkyatto.webjens.databinding.FragmentAuthBinding
-import com.reinkyatto.webjens.remote.ApiRequests
-import com.reinkyatto.webjens.utils.dataStore
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import android.view.MotionEvent
+
+import android.view.View.OnTouchListener
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import com.reinkyatto.webjens.utils.safeDelay
+import kotlin.random.Random
+import kotlin.random.nextInt
 import kotlin.system.exitProcess
 
-class AuthFragment : Fragment() {
-    private lateinit var binding: FragmentAuthBinding
-    private val api: ApiRequests by lazy {
-        getService()
-    }
 
-    private val viewModel: AuthViewModel by viewModels {
-        AuthViewModelFactory(api)
-    }
+class AuthFragment : BaseFragment() {
+    private lateinit var binding: FragmentAuthBinding
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,37 +40,41 @@ class AuthFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+
+
         registerObservers(view)
     }
 
 
-    private fun getService(): ApiRequests {
-        val client = OkHttpClient.Builder()
-            //.addInterceptor(TokenInterceptor(api_key)) // пригодится тогда, когда уже будем иметь токен, но явно не сейчас
-            .build()
 
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-            .create(ApiRequests::class.java)
-    }
+
+//    this.keyword.setOnTouchListener(new RightDrawableOnTouchListener(keyword) {
+//        @Override
+//        public boolean onDrawableTouch(final MotionEvent event) {
+//            return onClickSearch(keyword,event);
+//        }
+//    });
+//
+//    private boolean onClickSearch(final View view, MotionEvent event) {
+//        // do something
+//        event.setAction(MotionEvent.ACTION_CANCEL);
+//        return false;
+//    }
 
     private fun navigate(direction: NavDirections) {
         findNavController().navigate(direction)
     }
+
     private fun registerObservers(view: View) {
         viewModel.apply {
             navigationEvent.observe(viewLifecycleOwner, ::navigate)
-            authSuccess.observe(viewLifecycleOwner, { token ->
-                suspend {
-                    val key = stringPreferencesKey("token")
-                    requireContext().dataStore.edit { data ->
-                        data[key] = token
-                    }
+            authSuccess.observe(viewLifecycleOwner, {
+                if (it) {
+                    //Toast.makeText(requireContext(), token, Toast.LENGTH_SHORT).show()
+                    (activity as MainActivity).setAuthMode(false)
+                    navigate(AuthFragmentDirections.actionAuthFragmentToServersListFragment())
                 }
-                navigate(AuthFragmentDirections.actionAuthFragmentToServersListFragment())
             })
             authFailed.observe(viewLifecycleOwner, {
                 showSnackBar(view, it)
@@ -93,8 +92,32 @@ class AuthFragment : Fragment() {
                     requireContext().hideKeyboard(view)
                 }
             })
+            blockLogBtnAndShowProgress.observe(viewLifecycleOwner, {
+                when(it){
+                    true -> {
+                        binding.apply {
+                            etEmail.isEnabled = false
+                            etPassword.isEnabled = false
+                            loginBtn.isClickable = false
+                            lpi.visibility = View.VISIBLE
+                        }
+                    }
+                    false -> {
+                        binding.apply {
+                            etEmail.isEnabled = true
+                            etPassword.isEnabled = true
+                            loginBtn.isClickable = true
+                            lpi.visibility = View.GONE
+                        }
+                    }
+                }
+            })
+            responseIsNotSuccess.observe(viewLifecycleOwner, {
+                if(it) view.safeDelay(Random.nextLong(1,5)){viewModel.onClickLogin()}
+            })
         }
     }
+
 
     private fun Context.hideKeyboard(view: View) {
         val inputMethodManager =
@@ -102,9 +125,6 @@ class AuthFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun showSnackBar(view: View, text: String?) {
-        text?.let { Snackbar.make(view, it, Snackbar.LENGTH_LONG).show() }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -139,9 +159,5 @@ class AuthFragment : Fragment() {
             }
             builder.create()
         }.show()
-    }
-
-    companion object {
-        private const val BASE_URL = "https://webjens.ru/main/api/"
     }
 }

@@ -2,7 +2,25 @@
     <string name="app_name">WebJens</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="login">Login</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="log_in">Log in</string>
+    <string name="log_out">Log out</string>
+    <string name="auth_title">Authorization</string>
+    <string name="auth_or">OR</string>
+    <string name="servers_list">Серверы</string>
+    <string name="profile">Профиль</string>
+    <string name="server_status_online">online</string>
+    <string name="server_status_offline">offline</string>
+    <string name="server_status_blocked">blocked</string>
+    <string name="server_port">Port</string>
+    <string name="server_players">Игроков</string>
+    <string name="server_id">Server ID</string>
+    <string name="server_status_symbol">•</string>
+    <string name="forgot_pass"><u>Забыли пароль?</u></string>
+    <string name="register"><u>Зарегистрироваться</u></string>
+    <string name="not_register_yet">Еще не зарегистрированы?</string>
+    <string name="choose_the_server">Выберите сервер</string>
+    <string name="servers_list_title">Список серверов</string>
+    <string name="server_settings_title">Настройки сервера</string>
 </resources>

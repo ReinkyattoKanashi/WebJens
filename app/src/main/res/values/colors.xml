@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +7,31 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="dark">#223035</color>
+
+
+    <color name="status_bar_color">#202C30</color> <!-- строка состояния -->
+    <color name="action_bar_color">#202C30</color> <!-- верхняя панель с названием проекта или окна -->
+    <color name="nav_bar_color">#223035</color> <!-- нижняя панелька с кнопками навигации (Не приложение! А именно андроид кнопки) -->
+
+
+    <color name="background_color">#223035</color>
+    <color name="basic_style_color">#223035</color>
+
+    <color name="icon_color">#223035</color>
+    <color name="text_edit_borders_color">#223035</color>
+    <color name="fill_color">#223035</color>
+    <color name="button_border_color">#223035</color>
+    <color name="button_fill_color">#223035</color>
+    <color name="text_color">#000000</color>
+
+
+    <color name="server_status_online_color">#00FC93</color>
+    <color name="server_status_offline_color">#F25050</color>
+    <color name="server_status_blocked_color">#F2F53E</color>
+    <color name="server_status_no_actual_color">#4E5D62</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#ffffff</color>
+
 </resources>
