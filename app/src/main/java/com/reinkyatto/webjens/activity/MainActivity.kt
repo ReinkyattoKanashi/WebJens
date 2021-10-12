@@ -24,11 +24,11 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.btMenu.setOnClickListener {
+        binding.btMenuImg.setOnClickListener {
             binding.dlMenu.openDrawer(GravityCompat.END)
         }
 
-        binding.btBack.setOnClickListener {
+        binding.btBackImg.setOnClickListener {
             navigate(savedDirection)
         }
 
@@ -77,14 +77,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setVisibleBackBtn() {
-        binding.btBack.visibility = View.VISIBLE
         binding.btBackImg.visibility = View.VISIBLE
-        binding.btBack.isClickable = true
+        binding.btBackImg.isClickable = true
     }
 
     fun setInvisibleBackBtn() {
-        binding.btBack.isClickable = false
-        binding.btBack.visibility = View.INVISIBLE
+        binding.btBackImg.isClickable = false
         binding.btBackImg.visibility = View.INVISIBLE
     }
 

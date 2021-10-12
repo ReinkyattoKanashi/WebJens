@@ -67,7 +67,6 @@ class ServersListFragment : BaseFragment() {
             true -> binding.NoActualIndicator.visibility = View.VISIBLE
             false -> binding.NoActualIndicator.visibility = View.GONE
         }
-
     }
 
     private fun reloadData(view: View, delay: Int) {

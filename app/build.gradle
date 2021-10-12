@@ -73,7 +73,4 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:2.2.0-alpha-1"
     implementation "org.koin:koin-androidx-viewmodel:2.2.0-alpha-1"
     implementation "org.koin:koin-androidx-fragment:2.2.0-alpha-1"
-
-    // ring progress bar
-    implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
 }
